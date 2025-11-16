@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function FeaturedPackages() {
   const packages = [
@@ -10,10 +10,33 @@ export default function FeaturedPackages() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsToShow, setItemsToShow] = useState(4); // Default to desktop view
   const containerRef = useRef(null);
 
+  // Determine how many items to show based on screen size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsToShow(1);
+      } else if (window.innerWidth < 1024) {
+        setItemsToShow(2);
+      } else {
+        setItemsToShow(4);
+      }
+    };
+
+    // Set initial value
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const nextSlide = () => {
-    if (currentIndex < packages.length - 1) {
+    if (currentIndex < packages.length - itemsToShow) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -39,8 +62,8 @@ export default function FeaturedPackages() {
             </button>
             <button 
               onClick={nextSlide}
-              disabled={currentIndex >= packages.length - 1}
-              className={`p-2 rounded-full ${currentIndex >= packages.length - 1 ? 'bg-gray-100 text-gray-400' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'}`}
+              disabled={currentIndex >= packages.length - itemsToShow}
+              className={`p-2 rounded-full ${currentIndex >= packages.length - itemsToShow ? 'bg-gray-100 text-gray-400' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'}`}
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </button>
@@ -48,7 +71,7 @@ export default function FeaturedPackages() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {packages.slice(currentIndex, currentIndex + (window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 4)).map((pkg, idx) => (
+          {packages.slice(currentIndex, currentIndex + itemsToShow).map((pkg, idx) => (
             <div key={idx} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
               <div className="relative h-40 sm:h-48">
                 <Image src={pkg.img} alt={pkg.title} fill className="object-cover" unoptimized />

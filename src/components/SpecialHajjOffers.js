@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function SpecialHajjOffers() {
   const offers = [
@@ -30,10 +30,33 @@ export default function SpecialHajjOffers() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsToShow, setItemsToShow] = useState(3); // Default to desktop view
   const containerRef = useRef(null);
 
+  // Determine how many items to show based on screen size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsToShow(1);
+      } else if (window.innerWidth < 1024) {
+        setItemsToShow(2);
+      } else {
+        setItemsToShow(3);
+      }
+    };
+
+    // Set initial value
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const nextSlide = () => {
-    if (currentIndex < offers.length - 1) {
+    if (currentIndex < offers.length - itemsToShow) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -59,8 +82,8 @@ export default function SpecialHajjOffers() {
             </button>
             <button 
               onClick={nextSlide}
-              disabled={currentIndex >= offers.length - 1}
-              className={`p-2 sm:p-3 rounded-full ${currentIndex >= offers.length - 1 ? 'bg-gray-200 text-gray-400' : 'bg-gray-800 text-white hover:bg-gray-700'}`}
+              disabled={currentIndex >= offers.length - itemsToShow}
+              className={`p-2 sm:p-3 rounded-full ${currentIndex >= offers.length - itemsToShow ? 'bg-gray-200 text-gray-400' : 'bg-gray-800 text-white hover:bg-gray-700'}`}
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </button>
@@ -68,7 +91,7 @@ export default function SpecialHajjOffers() {
         </div>
 
         <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scrollbar pb-4">
-          {offers.slice(currentIndex, currentIndex + (window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 3)).map((offer, idx) => (
+          {offers.slice(currentIndex, currentIndex + itemsToShow).map((offer, idx) => (
             <div key={idx} className="flex-shrink-0 w-64 sm:w-80 bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all border border-gray-200">
               <div className="relative h-40 sm:h-56">
                 <Image src={offer.img} alt={offer.title} fill className="object-cover" unoptimized />

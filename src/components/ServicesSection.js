@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ServicesSection() {
   const services = [
@@ -13,9 +13,32 @@ export default function ServicesSection() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [maxItems, setMaxItems] = useState(4); // Default to desktop view
+
+  // Determine how many items to show based on screen size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setMaxItems(1);
+      } else if (window.innerWidth < 1024) {
+        setMaxItems(2);
+      } else {
+        setMaxItems(4);
+      }
+    };
+
+    // Set initial value
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const nextSlide = () => {
-    if (currentIndex < services.length - 4) {
+    if (currentIndex < services.length - maxItems) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -33,7 +56,7 @@ export default function ServicesSection() {
         
         {/* Single Row - No Wrap */}
         <div className="flex flex-nowrap justify-start sm:justify-center gap-4 sm:gap-6 md:gap-8 overflow-x-auto hide-scrollbar pb-4 px-4 sm:px-6">
-          {services.slice(currentIndex, currentIndex + 4).map((service, idx) => (
+          {services.slice(currentIndex, currentIndex + maxItems).map((service, idx) => (
             <div key={idx} className="group bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-100 hover:border-[#14B8A6] hover:-translate-y-1 flex-shrink-0 w-24 sm:w-32">
               <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 bg-gradient-to-br from-[#14B8A6]/10 to-[#14B8A6]/5 rounded-full flex items-center justify-center group-hover:from-[#14B8A6] group-hover:to-[#0D9488] transition-all duration-300">
                 <span className="text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300">{service.icon}</span>
@@ -54,8 +77,8 @@ export default function ServicesSection() {
           </button>
           <button 
             onClick={nextSlide}
-            disabled={currentIndex >= services.length - 4}
-            className={`p-2 rounded-full ${currentIndex >= services.length - 4 ? 'bg-gray-200 text-gray-400' : 'bg-gray-800 text-white hover:bg-gray-700'}`}
+            disabled={currentIndex >= services.length - maxItems}
+            className={`p-2 rounded-full ${currentIndex >= services.length - maxItems ? 'bg-gray-200 text-gray-400' : 'bg-gray-800 text-white hover:bg-gray-700'}`}
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </button>
