@@ -15,7 +15,6 @@ export default function Header({ menuOpen, setMenuOpen }) {
             width={64}
             height={64}
             className="sm:w-16 w-12 sm:h-16 h-12"
-            unoptimized
           />
         </a>
       </div>

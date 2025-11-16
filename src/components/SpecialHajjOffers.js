@@ -94,7 +94,13 @@ export default function SpecialHajjOffers() {
           {offers.slice(currentIndex, currentIndex + itemsToShow).map((offer, idx) => (
             <div key={idx} className="flex-shrink-0 w-64 sm:w-80 bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all border border-gray-200">
               <div className="relative h-40 sm:h-56">
-                <Image src={offer.img} alt={offer.title} fill className="object-cover" unoptimized />
+                <Image 
+                  src={offer.img} 
+                  alt={offer.title} 
+                  fill 
+                  className="object-cover" 
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
                 <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-amber-500 text-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs font-bold shadow-lg">LIMITED OFFER</div>
                 <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 bg-[#023F3A] text-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs font-bold">{offer.badge}</div>
               </div>

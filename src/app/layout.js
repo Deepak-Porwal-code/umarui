@@ -21,6 +21,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* Preload critical images */}
+        <link rel="preload" as="image" href="/images/sm-bg.jpg" />
+        <link rel="preload" as="image" href="/images/background-1.jpg" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

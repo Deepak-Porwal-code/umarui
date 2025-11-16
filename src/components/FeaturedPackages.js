@@ -74,7 +74,13 @@ export default function FeaturedPackages() {
           {packages.slice(currentIndex, currentIndex + itemsToShow).map((pkg, idx) => (
             <div key={idx} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
               <div className="relative h-40 sm:h-48">
-                <Image src={pkg.img} alt={pkg.title} fill className="object-cover" unoptimized />
+                <Image 
+                  src={pkg.img} 
+                  alt={pkg.title} 
+                  fill 
+                  className="object-cover" 
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
               </div>
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-base sm:text-lg text-black mb-2 line-clamp-2">{pkg.title}</h3>

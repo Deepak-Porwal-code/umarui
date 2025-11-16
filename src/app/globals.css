@@ -23,12 +23,19 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  /* Add performance optimizations */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* Custom styles for navbar */
 .navbar_adding {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  /* Add hardware acceleration */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 /* Hide scrollbar */
@@ -39,6 +46,15 @@ body {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* Add hardware acceleration for animations */
+.transition-all,
+.transition,
+.transition-transform,
+.transition-colors,
+.transition-shadow {
+  will-change: transform;
 }
 
 /* Responsive utilities */

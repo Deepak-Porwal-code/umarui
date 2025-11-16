@@ -8,7 +8,7 @@ export default function Footer() {
           {/* Company Info */}
           <div className="text-center sm:text-left">
             <div className="flex justify-center sm:justify-start items-center space-x-2 mb-4">
-              <Image src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/7d92a2ad-c5ad-40ed-a9c2-add3561e1142-umarui-vercel-app/assets/images/images_1.png" alt="Logo" width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10" unoptimized />
+              <Image src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/7d92a2ad-c5ad-40ed-a9c2-add3561e1142-umarui-vercel-app/assets/images/images_1.png" alt="Logo" width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10" />
               <span className="text-lg sm:text-xl font-bold">Marhaba Haji</span>
             </div>
             <p className="text-white/70 text-xs sm:text-sm mb-4 text-center sm:text-left">Your trusted partner for Umrah and Hajj journeys. Making sacred pilgrimages accessible and comfortable.</p>
